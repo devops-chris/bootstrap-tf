@@ -3,22 +3,22 @@
 
 module "labels" {
   source      = "git@github.com:devops-chris/tf-azure-labels.git?ref=v0.1.0"
-  owner       = "opre"
-  project     = "ops"
-  location    = "eastus"
-  environment = "dev"
+  owner       = var.owner
+  project     = var.project
+  location    = var.location
+  environment = var.environment
   workload    = "tf"
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = module.labels.resourceNames["azurerm_resource_group"] //"opre-ops-dev-eus-tf-rg" //var.resource_group_name // <project>-<workload>-<env>-<location>-terraform ex. opre-ops-dev-use1-terraform
+  name     = module.labels.resourceNames["azurerm_resource_group"]
   location = var.location
 
   tags = module.labels.tags
 }
 
 resource "azurerm_storage_account" "sa" {
-  name                     = module.labels.resourceNames["azurerm_storage_account"] //"opreopsdeveustfsa"//var.storage_account_name
+  name                     = module.labels.resourceNames["azurerm_storage_account"]
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "sa" {
 }
 
 resource "azurerm_storage_container" "sc" {
-  name                 = module.labels.resourceNames["azurerm_storage_container"] //"opre-ops-dev-eus-tf-sc"//var.container_name
+  name                 = module.labels.resourceNames["azurerm_storage_container"]
   storage_account_name = azurerm_storage_account.sa.name
 
 }
