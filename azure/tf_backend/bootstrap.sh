@@ -37,6 +37,6 @@ terraform apply --auto-approve
 terraform fmt
 
 # Re-initialize Terraform with the backend configuration
-terraform init -migrate-state --auto-approve
+terraform init -migrate-state -input=false 
 
 echo "Bootstrap is complete... check the newly generated README.md for next steps."
